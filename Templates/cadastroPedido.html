@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Página de cadastro de Pedidos</title>
+</head>
+<body>
+    <h1>Página de cadastro</h1>
     <hr>
     <form action="{{ url_for('cadastroPedido')}}" method="POST">
         <table>
@@ -18,12 +21,17 @@
                 <td>Valor</td>
                 <td><input type="text" name="valor"></td>
             </tr>
+             <tr>
+                <td>ID do Cliente</td>
+                <td><input type="text" name="cliente_id"></td>
+            </tr>
+            <tr>
+                <td>ID do Entregador</td>
+                <td><input type="text" name="entregador_id"></td>
+            </tr>
         </table><br>
         <input type="submit" value="Cadastrar">
     </form>
     <a href="/index">Voltar</a>
-</head>
-<body>
-    <h1>Página de cadastro</h1>
 </body>
-</html> 
+</html>

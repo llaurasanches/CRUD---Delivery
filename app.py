@@ -7,96 +7,22 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
 db = SQLAlchemy(app)
 
-class Pedido (db.Model): 
-    __tablename__= 'pedido'
-    _id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nome = db.Column(db.String)
-    descricao = db.Column(db.String)
-    valor = db.Column(db.Float)
-
-    def __init__(self, nome, descricao, valor):
-        self.nome = nome
-        self.descricao = descricao
-        self.valor = valor
-
-with app.app_context():
-    db.create_all()
-
-@app.route("/index")
-def index():
-    return render_template("index.html")
-
-@app.route("/cadastrarPedido")
-def cadastrarPedido ():
-    return render_template("cadastroPedido.html")
-
-@app.route("/cadastroPedido", methods=['GET', 'POST'])
-def cadastroPedido ():
-    if request.method == "POST":
-        nome = request.form.get("nome")
-        descricao = request.form.get("descricao")
-        valor = request.form.get("valor")
-
-        if nome and descricao and valor:
-            c = Pedido (nome, descricao, valor)
-            db.session.add(c)
-            db.session.commit()
-
-
-    return redirect (url_for("index"))
-
-@app.route("/listaPedido")
-def listaPedido(): 
-    pedidos = Pedido.query.all()
-    return render_template("listaPedido.html", pedidos=pedidos)
-
-@app.route("/excluirPedido/<int:id>")
-def excluirPedido(id):
-    pedido = Pedido.query.filter_by(_id=id).first()
-
-    db.session.delete(pedido)
-    db.session.commit() 
-
-    pedidos = Pedido.query.all()
-    return render_template("listaPedido.html", pedidos=pedidos)
-
-@app.route("/atualizarPedido/<int:id>", methods=['GET', 'POST'])
-def atualizarPedido(id):
-    pedido = Pedido.query.filter_by(_id=id).first()
-
-    if request.method == "POST":
-        nome = request.form.get("nome")
-        descricao = request.form.get("descricao")
-        valor = request.form.get("valor")
-        
-        if nome and descricao and valor:
-            pedido.nome = nome
-            pedido.descricao = descricao
-            pedido.valor = valor
-
-            db.session.commit()
-
-            return redirect(url_for("listaPedido"))
-
-    return render_template("atualizarPedido.html", pedido=pedido)
-
 class Cliente (db.Model): 
     __tablename__= 'cliente'
-    _id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nome = db.Column(db.String)
-    cpf = db.Column(db.String)
-    email = db.Column(db.String)
-    telefoneResidencial = db.Column(db.String)
-    telefoneCelular = db.Column(db.String)
-    cep = db.Column(db.String)
-    logradouro = db.Column(db.String)
-    numero = db.Column(db.String)
-    complemento = db.Column(db.String)
-    cidade = db.Column(db.String)
-    uf = db.Column(db.String)
-    pedido_id = Column(Integer, ForeignKey("pedido.id"), index=True)
-
-    def __init__(self, nome, cpf, email, telefoneResidencial, telefoneCelular, cep, logradouro, numero, complemento, cidade, uf, pedido_id):
+    _id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # CREATE TABLE `cliente` (`_id` INT AUTO_INCREMENT PRIMARY KEY)
+    nome = db.Column(db.String)  # `nome` VARCHAR(255)
+    cpf = db.Column(db.String)  # `cpf` VARCHAR(255)
+    email = db.Column(db.String)  # `email` VARCHAR(255)
+    telefoneResidencial = db.Column(db.String)  # `telefoneResidencial` VARCHAR(255)
+    telefoneCelular = db.Column(db.String)  # `telefoneCelular` VARCHAR(255)
+    cep = db.Column(db.String)  # `cep` VARCHAR(255)
+    logradouro = db.Column(db.String)  # `logradouro` VARCHAR(255)
+    numero = db.Column(db.String)  # `numero` VARCHAR(255)
+    complemento = db.Column(db.String)  # `complemento` VARCHAR(255)
+    cidade = db.Column(db.String)  # `cidade` VARCHAR(255)
+    uf = db.Column(db.String)  # `uf` VARCHAR(255)
+    
+    def __init__(self, nome, cpf, email, telefoneResidencial, telefoneCelular, cep, logradouro, numero, complemento, cidade, uf):
         self.nome = nome
         self.cpf = cpf
         self.email = email
@@ -108,10 +34,14 @@ class Cliente (db.Model):
         self.complemento = complemento
         self.cidade = cidade
         self.uf = uf
-        self.pedido_id = pedido_id
+
 
 with app.app_context():
     db.create_all()
+
+@app.route("/index")
+def index():
+    return render_template("index.html")
 
 @app.route("/cadastrarCliente")
 def cadastrarCliente ():
@@ -131,10 +61,9 @@ def cadastroCliente():
         complemento = request.form.get("complemento")
         cidade = request.form.get("cidade")
         uf = request.form.get("uf")
-        pedido_id = request.form.get("pedido_id")
 
-        if nome and cpf and email and telefoneResidencial and telefoneCelular and cep and logradouro and numero and complemento and cidade and uf and pedido_id:
-            c = Cliente(nome, cpf, email, telefoneResidencial, telefoneCelular, cep, logradouro, numero, complemento, cidade, uf, pedido_id)
+        if nome and cpf and email and telefoneResidencial and telefoneCelular and cep and logradouro and numero and complemento and cidade and uf:
+            c = Cliente(nome, cpf, email, telefoneResidencial, telefoneCelular, cep, logradouro, numero, complemento, cidade, uf)
             db.session.add(c)
             db.session.commit()
 
@@ -194,21 +123,20 @@ def atualizarCliente(id):
 
 class Entregador (db.Model): 
     __tablename__= 'entregador'
-    _id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nome = db.Column(db.String)
-    cpf = db.Column(db.String)
-    email = db.Column(db.String)
-    telefoneResidencial = db.Column(db.String)
-    telefoneCelular = db.Column(db.String)
-    cep = db.Column(db.String)
-    logradouro = db.Column(db.String)
-    numero = db.Column(db.String)
-    complemento = db.Column(db.String)
-    cidade = db.Column(db.String)
-    uf = db.Column(db.String)
-    pedido_id = Column(Integer, ForeignKey("pedido.id"), index=True)
-
-    def __init__(self, nome, cpf, email, telefoneResidencial, telefoneCelular, cep, logradouro, numero, complemento, cidade, uf, pedido_id):
+    _id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # CREATE TABLE `entregador` (`_id` INT AUTO_INCREMENT PRIMARY KEY)
+    nome = db.Column(db.String)  # `nome` VARCHAR(255)
+    cpf = db.Column(db.String)  # `cpf` VARCHAR(255)
+    email = db.Column(db.String)  # `email` VARCHAR(255)
+    telefoneResidencial = db.Column(db.String)  # `telefoneResidencial` VARCHAR(255)
+    telefoneCelular = db.Column(db.String)  # `telefoneCelular` VARCHAR(255)
+    cep = db.Column(db.String)  # `cep` VARCHAR(255)
+    logradouro = db.Column(db.String)  # `logradouro` VARCHAR(255)
+    numero = db.Column(db.String)  # `numero` VARCHAR(255)
+    complemento = db.Column(db.String)  # `complemento` VARCHAR(255)
+    cidade = db.Column(db.String)  # `cidade` VARCHAR(255)
+    uf = db.Column(db.String)  # `uf` VARCHAR(255)
+   
+    def __init__(self, nome, cpf, email, telefoneResidencial, telefoneCelular, cep, logradouro, numero, complemento, cidade, uf):
         self.nome = nome
         self.cpf = cpf
         self.email = email
@@ -220,7 +148,6 @@ class Entregador (db.Model):
         self.complemento = complemento
         self.cidade = cidade
         self.uf = uf
-        self.pedido_id = pedido_id
 
 with app.app_context():
     db.create_all()
@@ -243,10 +170,9 @@ def cadastroEntregador ():
         complemento = request.form.get("complemento")
         cidade = request.form.get("cidade")
         uf = request.form.get("uf")
-        pedido_id = request.form.get("pedido_id")
 
-        if nome and cpf and email and telefoneResidencial and telefoneCelular and cep and logradouro and numero and complemento and cidade and uf and pedido_id:
-            c = Entregador (nome, cpf, email, telefoneResidencial, telefoneCelular, cep, logradouro, numero, complemento, cidade, uf, pedido_id)
+        if nome and cpf and email and telefoneResidencial and telefoneCelular and cep and logradouro and numero and complemento and cidade and uf:
+            c = Entregador (nome, cpf, email, telefoneResidencial, telefoneCelular, cep, logradouro, numero, complemento, cidade, uf)
             db.session.add(c)
             db.session.commit()
 
@@ -303,6 +229,75 @@ def atualizarEntregador(id):
             return redirect(url_for("listaEntregador"))
 
     return render_template("atualizarEntregador.html", entregador=entregador)
+
+class Pedido (db.Model): 
+    __tablename__= 'pedido'
+    _id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # CREATE TABLE `pedido` (`_id` INT AUTO_INCREMENT PRIMARY KEY)
+    nome = db.Column(db.String)  # `nome` VARCHAR(255)
+    descricao = db.Column(db.String)  # `descricao` VARCHAR(255)
+    valor = db.Column(db.Float)  # `valor` FLOAT
+
+    def __init__(self, nome, descricao, valor):
+        self.nome = nome
+        self.descricao = descricao
+        self.valor = valor
+
+with app.app_context():
+    db.create_all()
+
+@app.route("/cadastrarPedido")
+def cadastrarPedido ():
+    return render_template("cadastroPedido.html")
+
+@app.route("/cadastroPedido", methods=['GET', 'POST'])
+def cadastroPedido ():
+    if request.method == "POST":
+        nome = request.form.get("nome")
+        descricao = request.form.get("descricao")
+        valor = request.form.get("valor")
+
+        if nome and descricao and valor:
+            c = Pedido (nome, descricao, valor)
+            db.session.add(c)
+            db.session.commit()
+
+
+    return redirect (url_for("index"))
+
+@app.route("/listaPedido")
+def listaPedido(): 
+    pedidos = Pedido.query.all()
+    return render_template("listaPedido.html", pedidos=pedidos)
+
+@app.route("/excluirPedido/<int:id>")
+def excluirPedido(id):
+    pedido = Pedido.query.filter_by(_id=id).first()
+
+    db.session.delete(pedido)
+    db.session.commit() 
+
+    pedidos = Pedido.query.all()
+    return render_template("listaPedido.html", pedidos=pedidos)
+
+@app.route("/atualizarPedido/<int:id>", methods=['GET', 'POST'])
+def atualizarPedido(id):
+    pedido = Pedido.query.filter_by(_id=id).first()
+
+    if request.method == "POST":
+        nome = request.form.get("nome")
+        descricao = request.form.get("descricao")
+        valor = request.form.get("valor")
+        
+        if nome and descricao and valor:
+            pedido.nome = nome
+            pedido.descricao = descricao
+            pedido.valor = valor
+
+            db.session.commit()
+
+            return redirect(url_for("listaPedido"))
+
+    return render_template("atualizarPedido.html", pedido=pedido)
 
 
 if __name__ == '__main__':

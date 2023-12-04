@@ -13,6 +13,8 @@
                 <td>Nome</td>
                 <td>Descrição</td>
                 <td>Valor</td>
+                <td>ID do Cliente</td>
+                <td>ID do Entregador</td>
                 <td>Excluir</td>
                 <td>Atualizar</td>
             </tr>
@@ -22,6 +24,8 @@
                 <td>{{ pedido.nome }}</td>
                 <td>{{ pedido.descricao }}</td>
                 <td>{{ pedido.valor }}</td>
+                <td>{{ pedido.cliente_id }}</td>
+                <td>{{ pedido.entregador_id }}</td>
                 <td><a href="/excluirPedido/{{ pedido._id }}">Excluir</a></td>
                 <td><a href="/atualizarPedido/{{ pedido._id }}">Atualizar</a></td>
             </tr>
