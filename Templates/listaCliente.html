@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Lista de Clientes</title>
+    </head>
+    <body>
+        <h1>Lista de Clientes</h1>
+        <hr> 
+        <table border ="2">
+            <tr>
+                <td>ID</td>
+                <td>Nome</td>
+                <td>CPF</td>
+                <td>E-mail</td>
+                <td>Telefone Residencial</td>
+                <td>Telefone Celular</td>
+                <td>Cep</td>
+                <td>Logradouro</td>
+                <td>Complemento</td>
+                <td>Número</td>
+                <td>Cidade</td>
+                <td>UF</td>
+                <td>Excluir</td>
+                <td>Atualizar</td>
+            </tr>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.id }}</td>
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.cpf }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>{{ cliente.telefoneResidencial }}</td>
+                <td>{{ cliente.telefoneCelular }}</td>
+                <td>{{ cliente.cep }}</td>
+                <td>{{ cliente.logradouro }}</td>
+                <td>{{ cliente.complemento }}</td>
+                <td>{{ cliente.numero }}</td>
+                <td>{{ cliente.cidade }}</td>
+                <td>{{ cliente.uf }}</td>
+                <td><a href="/excluirCliente/{{ cliente._id }}">Excluir</a></td>
+                <td><a href="/atualizarCliente/{{ cliente._id }}">Atualizar</a></td>
+            </tr>
+            {% endfor %}
+            <a href="/index">Voltar</a>
+        </table>
+    </body>
+</html>

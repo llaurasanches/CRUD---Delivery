@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Lista de Entregadores</title>
+    </head>
+    <body>
+        <h1>Lista de Entregadores</h1>
+        <hr> 
+        <table border ="2">
+            <tr>
+                <td>ID</td>
+                <td>Nome</td>
+                <td>CPF</td>
+                <td>E-mail</td>
+                <td>Telefone Residencial</td>
+                <td>Telefone Celular</td>
+                <td>Cep</td>
+                <td>Logradouro</td>
+                <td>Complemento</td>
+                <td>Número</td>
+                <td>Cidade</td>
+                <td>UF</td>
+                <td>Excluir</td>
+                <td>Atualizar</td>
+            </tr>
+            {% for entregador in entregadores %}
+            <tr>
+                <td>{{ entregador.id }}</td>
+                <td>{{ entregador.nome }}</td>
+                <td>{{ entregador.cpf }}</td>
+                <td>{{ entregador.email }}</td>
+                <td>{{ entregador.telefoneResidencial }}</td>
+                <td>{{ entregador.telefoneCelular }}</td>
+                <td>{{ entregador.cep }}</td>
+                <td>{{ entregador.logradouro }}</td>
+                <td>{{ entregador.complemento }}</td>
+                <td>{{ entregador.numero }}</td>
+                <td>{{ entregador.cidade }}</td>
+                <td>{{ entregador.uf }}</td>
+                <td><a href="/excluirEntregador/{{ entregador._id }}">Excluir</a></td>
+                <td><a href="/atualizarEntregador/{{ entregador._id }}">Atualizar</a></td>
+            </tr>
+            {% endfor %}
+            <a href="/index">Voltar</a>
+        </table>
+    </body>
+</html>

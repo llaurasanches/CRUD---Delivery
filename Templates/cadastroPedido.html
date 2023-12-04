@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Página de cadastro de Pedidos</title>
+    <hr>
+    <form action="{{ url_for('cadastroPedido')}}" method="POST">
+        <table>
+            <tr>
+                <td>Nome</td>
+                <td><input type="text" name="nome"></td>
+            </tr>
+            <tr>
+                <td>Descrição</td>
+                <td><input type="text" name="descricao"></td>
+            </tr>
+            <tr>
+                <td>Valor</td>
+                <td><input type="text" name="valor"></td>
+            </tr>
+        </table><br>
+        <input type="submit" value="Cadastrar">
+    </form>
+    <a href="/index">Voltar</a>
+</head>
+<body>
+    <h1>Página de cadastro</h1>
+</body>
+</html> 

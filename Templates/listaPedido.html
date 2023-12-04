@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Lista de Pedidos</title>
+    </head>
+    <body>
+        <h1>Lista de Pedidos</h1>
+        <hr> 
+        <table border ="2">
+            <tr>
+                <td>ID</td>
+                <td>Nome</td>
+                <td>Descrição</td>
+                <td>Valor</td>
+                <td>Excluir</td>
+                <td>Atualizar</td>
+            </tr>
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.nome }}</td>
+                <td>{{ pedido.descricao }}</td>
+                <td>{{ pedido.valor }}</td>
+                <td><a href="/excluirPedido/{{ pedido._id }}">Excluir</a></td>
+                <td><a href="/atualizarPedido/{{ pedido._id }}">Atualizar</a></td>
+            </tr>
+            {% endfor %}
+            <a href="/index">Voltar</a>
+        </table>
+    </body>
+</html>

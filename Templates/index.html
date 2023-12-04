@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Página inicial</title>
+    </head>
+    <body>
+        <h1>Cadastro de Clientes</h1>
+        <hr> 
+        <a href="{{ url_for('cadastrarCliente')}}">Cadastrar Clientes</a>
+        <a href="{{ url_for('listaCliente')}}">Lista de Clientes</a>
+        <hr>
+        <h1>Cadastro de Entregadores</h1>
+        <a href="{{ url_for('cadastrarEntregador')}}">Cadastrar Entregadores</a>
+        <a href="{{ url_for('listaEntregador')}}">Lista de Entregadores</a>
+         <hr>
+        <h1>Cadastro de Pedidos</h1>
+        <a href="{{ url_for('cadastrarPedido')}}">Cadastrar Pedidos</a>
+        <a href="{{ url_for('listaPedido')}}">Lista de Pedidos</a>
+    </body>
+</html>
